@@ -100,9 +100,56 @@ add_library(${PROJECT_NAME}
 
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
+if(NOT CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
+        SOVERSION ${PROJECT_VERSION_MAJOR}
+        C_STANDARD 99
+        C_STANDARD_REQUIRED ON
+        C_EXTENSIONS OFF
+        C_VISIBILITY_PRESET hidden
+    )
+endif()
+
+set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY PUBLIC_HEADER
+    fast_copy.h
+)
+
+include(GenerateExportHeader)
+generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME}/export.h)
+
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated/>
+)
+
+include(GNUInstallDirs)
+install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file("${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION ${${PROJECT_NAME}_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION lib/cmake/${PROJECT_NAME}
+)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME}/export.h"
+    DESTINATION include/${PROJECT_NAME}
+)
+
+install(EXPORT ${PROJECT_NAME}
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION lib/cmake/${PROJECT_NAME}
+    FILE ${PROJECT_NAME}Config.cmake
 )
 
 add_subdirectory(tests)
