@@ -1,0 +1,14 @@
+[
+    {
+        "name": "standard host gcc for x64",
+        "toolchainFile": "${workspaceRoot}/build/toolchains/x86-linux-gcc.cmake"
+    },
+    {
+        "name": "standard host clang for x64",
+        "toolchainFile": "${workspaceRoot}/build/toolchains/x86-linux-clang.cmake"
+    },
+    {
+        "name": "arm linux",
+        "toolchainFile": "${workspaceRoot}/build/toolchains/arm-linux-gnueabihf-gcc-9.cmake"
+    }
+]
