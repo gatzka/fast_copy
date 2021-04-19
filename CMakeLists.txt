@@ -1,6 +1,15 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.11)
 project(fast_copy VERSION 0.0.1 LANGUAGES C)
 
+include(FetchContent)
+FetchContent_Declare(GatzkaToolchainFiles
+    GIT_REPOSITORY https://github.com/gatzka/cmake-toolchain-files.git
+    SOURCE_DIR ${CMAKE_BINARY_DIR}/toolchains
+)
+FetchContent_GetProperties(GatzkaToolchainFiles)
+if(NOT GatzkaToolchainFiles_POPULATED)
+    FetchContent_Populate(GatzkaToolchainFiles)
+endif()
 
 if(CMAKE_CONFIGURATION_TYPES)
     if(NOT "MemorySanitizer" IN_LIST CMAKE_CONFIGURATION_TYPES)
