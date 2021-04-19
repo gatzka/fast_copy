@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.11)
-project(fast_copy VERSION 0.0.1 LANGUAGES C)
 
 include(FetchContent)
 FetchContent_Declare(GatzkaToolchainFiles
@@ -10,6 +9,8 @@ FetchContent_GetProperties(GatzkaToolchainFiles)
 if(NOT GatzkaToolchainFiles_POPULATED)
     FetchContent_Populate(GatzkaToolchainFiles)
 endif()
+
+project(fast_copy VERSION 0.0.1 LANGUAGES C)
 
 if(CMAKE_CONFIGURATION_TYPES)
     if(NOT "MemorySanitizer" IN_LIST CMAKE_CONFIGURATION_TYPES)
