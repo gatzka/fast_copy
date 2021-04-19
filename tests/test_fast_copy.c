@@ -34,7 +34,7 @@
 #include "fff.h"
 #include "unity.h"
 
-static const unsigned int BUFFER_SIZE = 100;
+#define BUFFER_SIZE 100
 
 DEFINE_FFF_GLOBALS
 
