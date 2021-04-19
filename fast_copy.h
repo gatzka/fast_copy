@@ -31,11 +31,13 @@
 
 #include <stddef.h>
 
+#include "fast_copy/export.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void *fast_copy(void *restrict dest, const void *restrict src, size_t count);
+FAST_COPY_EXPORT void *fast_copy(void *restrict dest, const void *restrict src, size_t count);
 
 #ifdef __cplusplus
 }
