@@ -3,6 +3,16 @@ name: CI build
 on: [push, pull_request]
 
 jobs:
+  windows-debug:
+    name: x86 windows Debug
+    runs-on: windows-2019
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: ctest build
+      run: ctest -DCTEST_CMAKE_GENERATOR="Visual Studio 16 2019" -DCTEST_TOOLCHAIN_FILE="/tmp/fast_copy/toolchains/x86_windows_msvc.cmake" -DCTEST_CONFIGURATION_TYPE:STRING=Debug -S build.cmake
+
   gcc-10-debug:
     name: x86 gcc-10 Debug
     runs-on: ubuntu-20.04
